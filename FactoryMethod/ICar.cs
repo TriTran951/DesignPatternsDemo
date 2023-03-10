@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace FactoryMethod
 {
-    abstract class Animal
+
+    public interface ICar
     {
-        public void Run() 
-        {
-            Console.WriteLine("Animal run");
-        }
-        public abstract void sleep();
+        string CreateVehicle();
     }
 }

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace FactoryMethod
 {
-    class Dog: Animal
+    public class TruckObj : ICar
     {
-        public override void sleep()
+        public string CreateVehicle()
         {
-            Console.WriteLine("Dog sleep");
+            return this.ToString();
         }
     }
 }
