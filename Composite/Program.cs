@@ -1,68 +1,88 @@
 ﻿using System;
 
-// Component interface
-public interface IComponent
+public abstract class GiftBase
 {
-    void Operation();
+    protected string name;
+    protected int price;
+
+    public GiftBase(string name, int price)
+    {
+        this.name = name;
+        this.price = price;
+    }
+
+    public abstract int CalculateTotalPrice();
 }
 
-// Leaf class
-public class Leaf : IComponent
+//Composite
+public class CompositeGift : GiftBase
 {
-    public void Operation()
-    {
-        Console.WriteLine("Leaf operation.");
-    }
-}
+    private List<GiftBase> _gifts;
 
-// Composite class
-public class Composite : IComponent
-{
-    private List<IComponent> _children = new List<IComponent>();
-
-    public void Add(IComponent component)
+    public CompositeGift(string name, int price)
+        : base(name, price)
     {
-        _children.Add(component);
+        _gifts = new List<GiftBase>();
     }
 
-    public void Remove(IComponent component)
+    public void Add(GiftBase gift)
     {
-        _children.Remove(component);
+        _gifts.Add(gift);
     }
 
-    public void Operation()
+    public void Remove(GiftBase gift)
     {
-        Console.WriteLine("Composite operation.");
-        foreach (IComponent component in _children)
+        _gifts.Remove(gift);
+    }
+
+    public override int CalculateTotalPrice()
+    {
+        int total = 0;
+
+        Console.WriteLine($"{name} contains the following products with prices:");
+
+        foreach (var gift in _gifts)
         {
-            component.Operation();
+            total += gift.CalculateTotalPrice();
         }
+
+        return total;
     }
 }
 
-// Client code
-class Client
+//Leaf
+public class SingleGift : GiftBase
+{
+    public SingleGift(string name, int price)
+        : base(name, price)
+    {
+    }
+
+    public override int CalculateTotalPrice()
+    {
+        Console.WriteLine($"{name} with the price {price}");
+
+        return price;
+    }
+}
+
+class Program
 {
     static void Main(string[] args)
     {
-        // Create leaf components
-        Leaf leaf1 = new Leaf();
-        Leaf leaf2 = new Leaf();
-        Leaf leaf3 = new Leaf();
+        var phone = new SingleGift("Phone", 256);
+        phone.CalculateTotalPrice();
 
-        // Create composite components
-        Composite composite1 = new Composite();
-        Composite composite2 = new Composite();
-
-        // Add leaf components to composite1
-        composite1.Add(leaf1);
-        composite1.Add(leaf2);
-
-        // Add composite1 and leaf3 to composite2
-        composite2.Add(composite1);
-        composite2.Add(leaf3);
-
-        // Call Operation() on composite2
-        composite2.Operation();
+        //composite gift
+        var rootBox = new CompositeGift("RootBox", 0);
+        var truckToy = new SingleGift("TruckToy", 289);
+        var plainToy = new SingleGift("PlainToy", 587);
+        rootBox.Add(truckToy);
+        rootBox.Add(plainToy);
+        var childBox = new CompositeGift("ChildBox", 0);
+        var soldierToy = new SingleGift("SoldierToy", 200);
+        childBox.Add(soldierToy);
+        rootBox.Add(childBox);
+        Console.WriteLine($"Total price of this composite present is: {rootBox.CalculateTotalPrice()}");
     }
 }
