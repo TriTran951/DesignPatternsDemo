@@ -1,82 +1,109 @@
-﻿// Implementor interface
-public interface IEffect
+﻿using System;
+
+// Abstraction
+public abstract class Vehicle
 {
-    void ApplyEffect();
+    protected IEngine engine;
+
+    public Vehicle(IEngine engine)
+    {
+        this.engine = engine;
+    }
+
+    public abstract void Drive();
+    public abstract void Stop();
 }
 
-// Concrete Implementor classes
-public class DamageEffect : IEffect
+// Implementor
+public interface IEngine
 {
-    public void ApplyEffect()
+    void Start();
+    void Stop();
+}
+
+// Concrete Implementor
+public class PetrolEngine : IEngine
+{
+    public void Start()
     {
-        Console.WriteLine("Deals damage to the enemy.");
+        Console.WriteLine("Starting petrol engine");
+    }
+
+    public void Stop()
+    {
+        Console.WriteLine("Stopping petrol engine");
     }
 }
 
-public class HealEffect : IEffect
+// Concrete Implementor
+public class DieselEngine : IEngine
 {
-    public void ApplyEffect()
+    public void Start()
     {
-        Console.WriteLine("Heals an ally.");
+        Console.WriteLine("Starting diesel engine");
+    }
+
+    public void Stop()
+    {
+        Console.WriteLine("Stopping diesel engine");
     }
 }
 
-// Abstraction class
-public abstract class Skill
+// Refined Abstraction
+public class Car : Vehicle
 {
-    protected IEffect _effect;
-
-    public Skill(IEffect effect)
-    {
-        _effect = effect;
-    }
-
-    public abstract void Cast();
-}
-
-// Refined Abstraction classes
-public class OffensiveSkill : Skill
-{
-    public OffensiveSkill(IEffect effect) : base(effect)
+    public Car(IEngine engine) : base(engine)
     {
     }
 
-    public override void Cast()
+    public override void Drive()
     {
-        Console.WriteLine("Cast an offensive skill.");
-        _effect.ApplyEffect();
+        engine.Start();
+        Console.WriteLine("Driving car...");
+    }
+
+    public override void Stop()
+    {
+        engine.Stop();
+        Console.WriteLine("Car stopped.");
     }
 }
 
-public class SupportSkill : Skill
+// Refined Abstraction
+public class Truck : Vehicle
 {
-    public SupportSkill(IEffect effect) : base(effect)
+    public Truck(IEngine engine) : base(engine)
     {
     }
 
-    public override void Cast()
+    public override void Drive()
     {
-        Console.WriteLine("Cast a supportive skill.");
-        _effect.ApplyEffect();
+        engine.Start();
+        Console.WriteLine("Driving truck...");
+    }
+
+    public override void Stop()
+    {
+        engine.Stop();
+        Console.WriteLine("Truck stopped.");
     }
 }
 
-// Client code
-public class Champion
-{
-    public OffensiveSkill OffensiveSkill { get; set; }
-    public SupportSkill SupportSkill { get; set; }
-}
-
+// Client
 public class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
-        Champion champion = new Champion();
-        champion.OffensiveSkill = new OffensiveSkill(new DamageEffect());
-        champion.SupportSkill = new SupportSkill(new HealEffect());
+        Vehicle car = new Car(new PetrolEngine());
+        car.Drive();
+        car.Stop();
 
-        champion.OffensiveSkill.Cast();
-        champion.SupportSkill.Cast();
+        Console.WriteLine("----------------------------");
+
+        Vehicle truck = new Truck(new DieselEngine());
+        truck.Drive();
+        truck.Stop();
+
+
     }
 }

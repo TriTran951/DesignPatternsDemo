@@ -25,12 +25,27 @@ class Yasuo : IChampion
         return "Yasuo cast: ";
     }
 }
+class Yone : IChampion
+{
+    public Yone(int attackDamage)
+    {
+        Name = "Yone";
+        AttackDamage = attackDamage;
+    }
+
+    public string Name { get; set; }
+    public int AttackDamage { get; set; }
+    public string Cast()
+    {
+        return "Yone cast: ";
+    }
+}
 
 // Lớp Decorator cho SummonerSpell
-abstract class SummonerSpellDecorator : IChampion
+abstract class ChampionSpellDecorator : IChampion
 {
     protected IChampion champion;
-    public SummonerSpellDecorator(IChampion champion)
+    public ChampionSpellDecorator(IChampion champion)
     {
         this.champion = champion;
     }
@@ -45,7 +60,7 @@ abstract class SummonerSpellDecorator : IChampion
 }
 
 // Lớp Decorator cho Teleport SummonerSpell
-class TeleportSummonerSpellDecorator : SummonerSpellDecorator
+class TeleportSummonerSpellDecorator : ChampionSpellDecorator
 {
     public TeleportSummonerSpellDecorator(IChampion champion) : base(champion)
     {
@@ -77,7 +92,7 @@ class TeleportSummonerSpellDecorator : SummonerSpellDecorator
 
 }
 
-class FlashSummonerSpellDecorator : SummonerSpellDecorator
+class FlashSummonerSpellDecorator : ChampionSpellDecorator
 {
     public FlashSummonerSpellDecorator(IChampion champion) : base(champion)
     {
@@ -121,8 +136,10 @@ class Program
         IChampion yasuoWithTeleport = new TeleportSummonerSpellDecorator(yasuo);
         Console.WriteLine(yasuoWithTeleport.Cast());
 
-        //Thêm tính năng Flash
-        IChampion yasuoWithTeleportFlash = new FlashSummonerSpellDecorator(yasuoWithTeleport);
-        Console.WriteLine(yasuoWithTeleportFlash.Cast());
+
+        IChampion yone = new Yone(1);
+        IChampion yoneWithTeleportFlash = new FlashSummonerSpellDecorator(
+                                            new TeleportSummonerSpellDecorator(yone));
+        Console.WriteLine(yoneWithTeleportFlash.Cast());
     }
 }
