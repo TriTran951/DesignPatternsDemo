@@ -26,12 +26,12 @@ public class PetrolEngine : IEngine
 {
     public void Start()
     {
-        Console.WriteLine("Starting petrol engine");
+        Console.Write("Starting petrol engine");
     }
 
     public void Stop()
     {
-        Console.WriteLine("Stopping petrol engine");
+        Console.Write("Stopping petrol engine");
     }
 }
 
@@ -40,12 +40,12 @@ public class DieselEngine : IEngine
 {
     public void Start()
     {
-        Console.WriteLine("Starting diesel engine");
+        Console.Write("Starting diesel engine");
     }
 
     public void Stop()
     {
-        Console.WriteLine("Stopping diesel engine");
+        Console.Write("Stopping diesel engine");
     }
 }
 
@@ -58,14 +58,18 @@ public class Car : Vehicle
 
     public override void Drive()
     {
+        Console.Write("Call method drive: ");
         engine.Start();
-        Console.WriteLine("Driving car...");
+
+        Console.WriteLine(" &  Driving car");
     }
 
     public override void Stop()
     {
+        Console.Write("Call method stop: ");
         engine.Stop();
-        Console.WriteLine("Car stopped.");
+
+        Console.WriteLine(" & Car stopped");
     }
 }
 
@@ -78,14 +82,19 @@ public class Truck : Vehicle
 
     public override void Drive()
     {
+        Console.Write("Call method drive: ");
         engine.Start();
-        Console.WriteLine("Driving truck...");
+
+        Console.WriteLine(" & Driving Truck");
     }
 
     public override void Stop()
     {
-        engine.Stop();
-        Console.WriteLine("Truck stopped.");
+
+        Console.Write("Call method stop: ");
+        engine.Stop ();
+
+        Console.WriteLine(" & Truck stopped");
     }
 }
 
@@ -94,16 +103,16 @@ public class Program
 {
     public static void Main()
     {
+   
+
+        Console.WriteLine("Car with petrol engine: ");
+        Console.WriteLine("----------------------------");
+
         Vehicle car = new Car(new PetrolEngine());
         car.Drive();
+
         car.Stop();
 
         Console.WriteLine("----------------------------");
-
-        Vehicle truck = new Truck(new DieselEngine());
-        truck.Drive();
-        truck.Stop();
-
-
     }
 }

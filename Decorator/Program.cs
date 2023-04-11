@@ -4,142 +4,98 @@ using System.Numerics;
 // Interface cho tướng
 interface IChampion
 {
-    string Name { get; }
-    int AttackDamage { get; }
-    string Cast();
+    int Speed { get; }
+    int walk();
 }
 
 // Lớp cơ sở cho tướng
 class Yasuo : IChampion
 {
-    public Yasuo(int attackDamage)
+    public Yasuo(int speed)
     {
-        Name = "Yasuo";
-        AttackDamage = attackDamage;
+        Speed = speed;
     }
 
-    public string Name { get; set; }
-    public int AttackDamage { get; set; }
-    public string Cast()
-    { 
-        return "Yasuo cast: ";
+    public int Speed { get; set; }
+    public int walk()
+    {
+        return Speed;
     }
 }
 class Yone : IChampion
 {
-    public Yone(int attackDamage)
+    public Yone(int speed)
     {
-        Name = "Yone";
-        AttackDamage = attackDamage;
+        Speed = speed;
     }
-
-    public string Name { get; set; }
-    public int AttackDamage { get; set; }
-    public string Cast()
+    public int Speed { get; set; }
+     public int walk()
     {
-        return "Yone cast: ";
+
+        return Speed;
     }
 }
 
 // Lớp Decorator cho SummonerSpell
-abstract class ChampionSpellDecorator : IChampion
+abstract class ChampionEffectDecorator : IChampion
 {
     protected IChampion champion;
-    public ChampionSpellDecorator(IChampion champion)
+    public ChampionEffectDecorator(IChampion champion)
     {
         this.champion = champion;
     }
+    public virtual int Speed { get; set; }
 
-    public virtual string Name { get; set; }
-    public virtual int AttackDamage { get; set; }
-
-    public virtual string Cast()
+    public virtual int walk()
     {
-       return champion.Cast();
+        return champion.walk();
     }
 }
 
 // Lớp Decorator cho Teleport SummonerSpell
-class TeleportSummonerSpellDecorator : ChampionSpellDecorator
+class GhostEffectDecorator : ChampionEffectDecorator
 {
-    public TeleportSummonerSpellDecorator(IChampion champion) : base(champion)
+    public GhostEffectDecorator(IChampion champion) : base(champion)
     {
-    }
-
-    public override string Name
-    {
-        get
-        {
-            return champion.Name + " with Teleport Summoner Spell";
-        }
-        set { }
-    }
-
-    public override int AttackDamage
-    {
-        get
-        {
-            return champion.AttackDamage;
-        }
-        set { }
     }
 
     // Thêm tính năng bổ sung cho SummonerSpell
-    public override string Cast()
-    {
-        return base.Cast() + " teleport,";
-    }
 
+    public override int walk()
+    {
+        return base.walk() + 30;
+    }
 }
 
-class FlashSummonerSpellDecorator : ChampionSpellDecorator
+class ExhaustEffectDecorator : ChampionEffectDecorator
 {
-    public FlashSummonerSpellDecorator(IChampion champion) : base(champion)
+    public ExhaustEffectDecorator(IChampion champion) : base(champion)
     {
     }
 
-    public override string Name
+    public override int walk()
     {
-        get
-        {
-            return champion.Name + " with Flash Summoner Spell";
-        }
-        set { }
+        return base.walk() - 10;
     }
-
-    public override int AttackDamage
-    {
-        get
-        {
-            return champion.AttackDamage;
-        }
-        set { }
-    }
-
-    // Thêm tính năng bổ sung cho SummonerSpell
-    public override string Cast()
-    {
-        return base.Cast() + " flash,";
-    }
-
 }
 class Program
 {
     static void Main(string[] args)
     {
-        // Tạo ra tướng Ezreal
+
+        // Tạo ra tướng 
         IChampion yasuo = new Yasuo(50);
-        Console.WriteLine(yasuo.Cast());
+        Console.WriteLine("Normal speed: " + yasuo.walk());
 
+        // Thêm tính năng 
+        IChampion yasuoWithGhost = new GhostEffectDecorator(yasuo);
+        Console.WriteLine("Speed with ghost: " + yasuoWithGhost.walk());
 
-        // Thêm tính năng Teleport Summoner Spell
-        IChampion yasuoWithTeleport = new TeleportSummonerSpellDecorator(yasuo);
-        Console.WriteLine(yasuoWithTeleport.Cast());
+        IChampion yasuoWithTeleportFlash = new ExhaustEffectDecorator(
+                                           new GhostEffectDecorator(yasuo));
+        Console.WriteLine("Speed with exhaust: " + yasuoWithTeleportFlash.walk());
 
-
-        IChampion yone = new Yone(1);
-        IChampion yoneWithTeleportFlash = new FlashSummonerSpellDecorator(
-                                            new TeleportSummonerSpellDecorator(yone));
-        Console.WriteLine(yoneWithTeleportFlash.Cast());
+        //IChampion yasuoWithExhaust = new ExhaustSpellDecorator(yasuo);
+        //Console.WriteLine("Speed with exhaust: " + yasuoWithExhaust.walk());
     }
 }
