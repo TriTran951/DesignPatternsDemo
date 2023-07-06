@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "State", "State\State.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interpreter", "Interpreter\Interpreter.csproj", "{6486842B-1F77-4B0C-82AC-881D7FACCE5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChainOfReponsibility", "ChainOfReponsibility\ChainOfReponsibility.csproj", "{77F622AC-15A4-4DBD-99AB-00C05B1F6B47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainOfReponsibility", "ChainOfReponsibility\ChainOfReponsibility.csproj", "{77F622AC-15A4-4DBD-99AB-00C05B1F6B47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Observer", "Observer\Observer.csproj", "{EB588013-0D9C-42D4-B29F-BCE4FC6E3C48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{77F622AC-15A4-4DBD-99AB-00C05B1F6B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77F622AC-15A4-4DBD-99AB-00C05B1F6B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77F622AC-15A4-4DBD-99AB-00C05B1F6B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB588013-0D9C-42D4-B29F-BCE4FC6E3C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB588013-0D9C-42D4-B29F-BCE4FC6E3C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB588013-0D9C-42D4-B29F-BCE4FC6E3C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB588013-0D9C-42D4-B29F-BCE4FC6E3C48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
